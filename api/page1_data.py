@@ -1,6 +1,7 @@
 from fastapi import APIRouter,HTTPException
 from pydantic import BaseModel
 from utils import db
+from typing import List
 
 router=APIRouter()
 
@@ -10,7 +11,7 @@ class Course(BaseModel):
 
 class Subject(BaseModel):
     id: int=None
-    course_id=int
+    course_id:int
     name:str
     
 class Topic(BaseModel):
