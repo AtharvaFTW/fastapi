@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api import page1_data,page2_reference,page3_generate,page4_slide_deck
 
 app=FastAPI()
-@app.route("/")
+@app.get("/")
 def root():
     return {"message":"hello"}
 

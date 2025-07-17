@@ -1,21 +1,21 @@
 from fastapi import APIRouter,HTTPException
 from pydantic import BaseModel
 from utils import db
-from typing import List
+from typing import List, Optional
 
 router=APIRouter()
 
 class Course(BaseModel):
-    id: int=None
+    id:Optional[int]=None
     name: str
 
 class Subject(BaseModel):
-    id: int=None
+    id:Optional[int]=None
     course_id:int
     name:str
     
 class Topic(BaseModel):
-    id: int=None
+    id:Optional[int]=None
     subject_id:int
     name:str
     

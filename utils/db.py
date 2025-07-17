@@ -2,7 +2,7 @@
 
 import sqlite3
 
-DB_FILE = "content_app.db"
+DB_FILE = "your_database.db"
 
 def get_connection():
     return sqlite3.connect(DB_FILE)
