@@ -1,10 +1,10 @@
-# utils/db.py
-
+import os
 import sqlite3
 
-DB_FILE = "your_database.db"
+DB_FILE = os.path.abspath("your_database.db")  # ensures consistent full path
 
 def get_connection():
+    print("Connecting to DB:", DB_FILE)
     return sqlite3.connect(DB_FILE)
 
 def init_db():
@@ -49,8 +49,7 @@ def fetch_courses():
 def fetch_subjects(course_id):
     with get_connection() as conn:
         return conn.execute(
-            "SELECT id, name, course_id FROM subjects WHERE course_id = ? ORDER BY name", 
-            (course_id,)
+            "SELECT id, name FROM subjects WHERE course_id = ? ORDER BY name", (course_id,)
         ).fetchall()
 
 def fetch_topics(subject_id):
@@ -70,6 +69,9 @@ def add_course(name):
         return True, "Course added successfully"
 
 def add_subject(name, course_id):
+    import os
+    db_path = os.path.abspath(DB_FILE)
+    print(f"[add_subject] Writing to DB: {db_path}")
     with get_connection() as conn:
         cur = conn.cursor()
         cur.execute(
@@ -77,12 +79,26 @@ def add_subject(name, course_id):
             (name.lower(), course_id)
         )
         if cur.fetchone():
+            print("[add_subject] Already exists.")
             return False, "Already exists, add new data or continue to next step"
         cur.execute(
             "INSERT INTO subjects (name, course_id) VALUES (?, ?)",
             (name, course_id)
         )
         conn.commit()
+
+        # 🔍 Confirm rows right after insert
+        cur.execute("SELECT id, name, course_id FROM subjects")
+        rows = cur.fetchall()
+        print("[add_subject] Rows in 'subjects':", rows)
+
+        return True, "Subject added successfully"
+
+        # 🔍 DEBUG: Confirm rows right after insert
+        cur.execute("SELECT id, name, course_id FROM subjects")
+        rows = cur.fetchall()
+        print("[add_subject] Rows in 'subjects':", rows)
+
         return True, "Subject added successfully"
 
 def add_topic(name, subject_id):
