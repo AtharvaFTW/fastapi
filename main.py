@@ -1,5 +1,8 @@
 from fastapi import FastAPI,HTTPException,APIRouter
 from fastapi.middleware.cors import CORSMiddleware
+from utils import db
+
+db.init_db()
 from api import page1_data,page2_reference,page3_generate,page4_slide_deck
 
 app=FastAPI()
