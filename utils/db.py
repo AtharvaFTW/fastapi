@@ -44,7 +44,7 @@ def init_db():
 
 def fetch_courses():
     with get_connection() as conn:
-        return conn.execute("SELECT id, name FROM courses ORDER BY name").fetchall()
+        return conn.execute("SELECT id, name FROM course ORDER BY name").fetchall()
 
 def fetch_subjects(course_id):
     with get_connection() as conn:
